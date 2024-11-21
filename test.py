@@ -1,7 +1,7 @@
 import unittest
 import os
 import json
-from lab2 import Meter, MeterManager  # Replace `your_module` with the name of your Python file (without .py)
+from lab2 import Meter, MeterManager  
 
 
 class TestMeter(unittest.TestCase):
@@ -70,6 +70,10 @@ class TestMeterManager(unittest.TestCase):
         self.assertIn("123", new_manager.meters)
         self.assertEqual(new_manager.meters["123"]["type"], "electric")
         self.assertEqual(new_manager.meters["123"]["reading"], 100)
+        
+    import xmlrunner
+    runner = xmlrunner.XMLTestRunner(output='test-reports')
+    unittest.main(testRunner=runner)
 
 
 if __name__ == "__main__":
