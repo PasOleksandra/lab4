@@ -72,8 +72,8 @@ class TestMeterManager(unittest.TestCase):
         self.assertEqual(new_manager.meters["123"]["reading"], 100)
         
 import xmlrunner
-    runner = xmlrunner.XMLTestRunner(output='test-reports')
-    unittest.main(testRunner=runner)
+runner = xmlrunner.XMLTestRunner(output='test-reports')
+unittest.main(testRunner=runner)
 
 
 if __name__ == "__main__":
