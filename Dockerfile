@@ -1,5 +1,5 @@
 # Вказуємо базовий образ Python
-FROM python:3.9-alpine
+FROM python:3.12-alpine
 
 # Встановлюємо робочу директорію всередині контейнера
 WORKDIR /app
