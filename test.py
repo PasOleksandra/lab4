@@ -71,7 +71,7 @@ class TestMeterManager(unittest.TestCase):
         self.assertEqual(new_manager.meters["123"]["type"], "electric")
         self.assertEqual(new_manager.meters["123"]["reading"], 100)
         
-    import xmlrunner
+import xmlrunner
     runner = xmlrunner.XMLTestRunner(output='test-reports')
     unittest.main(testRunner=runner)
 
