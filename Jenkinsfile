@@ -50,8 +50,8 @@ pipeline {
             agent any
             steps {
                 sh 'echo $DOCKER_CREDS_PSW | docker login --username $DOCKER_CREDS_USR --password-stdin'
-                sh 'docker build -t andriypolyuh/notes:latest .'
-                sh 'docker push andriypolyuh/notes:latest'
+                sh 'docker build -t oleksandra/notes:latest .'
+                sh 'docker push oleksandra/notes:latest'
             } 
         } // stage Publish
     } // stages
