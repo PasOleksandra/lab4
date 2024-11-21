@@ -1,11 +1,27 @@
-# Вказуємо базовий образ Python
-FROM python:3.12-alpine
+FROM jenkins/jenkins:lts
 
-# Встановлюємо робочу директорію всередині контейнера
-WORKDIR /app
+USER root
 
-# Копіюємо файл з кодом у контейнер
-COPY lab2.py ./
+# Установка необходимых пакетов
+RUN apt-get update && \
+    apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    software-properties-common
 
-# Вказуємо команду для запуску вашої програми NoteManager
-CMD ["python", "lab2.py"]
+# Добавление ключа и репозитория Docker
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
+    apt-key fingerprint 0EBFCD88 && \
+    add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+
+# Установка Docker CLI
+RUN apt-get update && apt-get install -y docker-ce-cli
+
+# Переключение на пользователя Jenkins
+USER jenkins
+
+# Установка плагинов Jenkins
+RUN jenkins-plugin-cli --plugins "blueocean docker-workflow"
