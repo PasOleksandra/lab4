@@ -1,5 +1,5 @@
 # Використовуємо базовий образ Alpine з Python
-FROM alpine
+FROM python:3.9-alpine
 # Встановлюємо робочу директорію всередині контейнера
 WORKDIR /app
 
