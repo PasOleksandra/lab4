@@ -1,6 +1,5 @@
 # Використовуємо базовий образ Alpine з Python
-FROM python:3.9-alpine
-
+FROM jenkins/jenkins:2.479.1-jdk17
 # Встановлюємо робочу директорію всередині контейнера
 WORKDIR /app
 
