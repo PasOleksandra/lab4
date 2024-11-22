@@ -24,7 +24,7 @@ pipeline {
         stage('Test') { 
             agent { 
                 docker { 
-                    image 'python:3.9' // Використовуємо офіційний образ Python 3.9
+                    image 'alpine' // Використовуємо офіційний образ Python 3.9
                     args '-u root' 
                 } 
             } 
