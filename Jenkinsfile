@@ -2,6 +2,8 @@ pipeline {
     options { timestamps() }
     environment {
         DOCKER_CREDS = credentials('tockenn') // Вкажіть ID облікових даних
+        DOCKER_CREDS_USR = credentials('tockenn').username
+        DOCKER_CREDS_PSW = credentials('tockenn').password
     }
     agent none
     stages {
@@ -22,7 +24,7 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image 'python:3.9-alpine' // Правильний образ
+                    image 'python:3.9-alpine3.12' // Уточнений образ
                     args '-u root'
                 }
             }
