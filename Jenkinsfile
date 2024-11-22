@@ -23,7 +23,7 @@ pipeline {
         stage('Test') { 
             agent { 
                 docker { 
-                    image 'python:3.9-alpine' 
+                    image 'alpine' 
                     args '-u root' 
                 } 
             } 
