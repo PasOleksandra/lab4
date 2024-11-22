@@ -1,7 +1,8 @@
 pipeline { 
     options { timestamps() }
     environment {
-        DOCKER_REGISTRY = 'https://registry-1.docker.io' // Password/Token from Jenkins credentials
+        DOCKER_REGISTRY = 'https://registry-1.docker.io' // Docker Hub registry
+        DOCKER_CREDS = credentials('tockenn') // Використовуйте ваш ID облікових даних
     }
     agent none 
     stages {  
@@ -23,7 +24,7 @@ pipeline {
         stage('Test') { 
             agent { 
                 docker { 
-                    image 'python:3.9' 
+                    image 'python:3.9' // Використовуємо офіційний образ Python 3.9
                     args '-u root' 
                 } 
             } 
@@ -31,7 +32,7 @@ pipeline {
                 sh 'apk add --update python3 py3-pip' 
                 sh 'pip install xmlrunner' 
                 sh 'pip install -r requirements.txt || echo "No requirements file found"' 
-                sh 'python3 test.py'  // запуск тестів
+                sh 'python3 test.py' // запуск тестів
             } 
             post { 
                 always { 
@@ -45,12 +46,17 @@ pipeline {
                 }  
             } 
         } 
+
         stage("Publish") {
             agent any
             steps {
-                sh 'echo $DOCKER_CREDS_PSW | docker login -u $DOCKER_CREDS_USR --password-stdin'
-                sh 'docker build -t sashka/notes:latest .'
-                sh 'docker push sashka/notes:latest'
+                script {
+                    // Логін до Docker Hub
+                    sh 'echo $DOCKER_CREDS_PSW | docker login $DOCKER_REGISTRY -u $DOCKER_CREDS_USR --password-stdin'
+                    // Створення та публікація Docker образу
+                    sh 'docker build -t sashka/notes:latest .'
+                    sh 'docker push sashka/notes:latest'
+                }
             } 
         } // stage Publish
     } // stages
