@@ -1,7 +1,7 @@
 pipeline { 
     options { timestamps() }
     environment {
-        DOCKER_CREDS = credentials('tocken') 
+        DOCKER_CREDS = credentials('tockenn') 
     }
     agent none 
     stages {  
