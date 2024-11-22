@@ -1,8 +1,8 @@
-pipeline { 
+pipeline {
     options { timestamps() }
     environment {
         DOCKER_REGISTRY = 'https://registry-1.docker.io' // Docker Hub registry
-        DOCKER_CREDS = credentials('tockenn') // Використовуйте ваш ID облікових даних
+        DOCKER_CREDS = credentials('tockenn') // ID облікових даних
     }
     agent none 
     stages {  
@@ -24,12 +24,11 @@ pipeline {
         stage('Test') { 
             agent { 
                 docker { 
-                    image 'alpine' // Використовуємо офіційний образ Python 3.9
+                    image 'python:3.9-alpine' // Python образ з Alpine
                     args '-u root' 
                 } 
             } 
             steps { 
-                sh 'apk add --update python3 py3-pip' 
                 sh 'pip install xmlrunner' 
                 sh 'pip install -r requirements.txt || echo "No requirements file found"' 
                 sh 'python3 test.py' // запуск тестів
@@ -57,7 +56,12 @@ pipeline {
                     sh 'docker build -t sashka/notes:latest .'
                     sh 'docker push sashka/notes:latest'
                 }
-            } 
+            }
+            post {
+                always {
+                    sh 'docker logout'
+                }
+            }
         } // stage Publish
     } // stages
 } // pipeline
