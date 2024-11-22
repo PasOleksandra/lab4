@@ -2,8 +2,6 @@ pipeline {
     options { timestamps() }
     environment {
         DOCKER_CREDS = credentials('tockenn') // Вкажіть ID облікових даних
-        DOCKER_CREDS_USR = credentials('tockenn').username
-        DOCKER_CREDS_PSW = credentials('tockenn').password
     }
     agent none
     stages {
@@ -49,9 +47,11 @@ pipeline {
             agent any
             steps {
                 script {
-                    sh 'echo $DOCKER_CREDS_PSW | docker login -u $DOCKER_CREDS_USR --password-stdin'
-                    sh 'docker build -t your-repo/your-image:latest .'
-                    sh 'docker push your-repo/your-image:latest'
+                    withCredentials([usernamePassword(credentialsId: 'tockenn', passwordVariable: 'DOCKER_CREDS_PSW', usernameVariable: 'DOCKER_CREDS_USR')]) {
+                        sh 'echo $DOCKER_CREDS_PSW | docker login -u $DOCKER_CREDS_USR --password-stdin'
+                        sh 'docker build -t your-repo/your-image:latest .'
+                        sh 'docker push your-repo/your-image:latest'
+                    }
                 }
             }
             post {
