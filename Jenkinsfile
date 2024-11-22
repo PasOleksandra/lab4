@@ -48,7 +48,7 @@ pipeline {
         stage("Publish") {
             agent any
             steps {
-                sh 'docker login --username $DOCKER_CREDS_USR --password $DOCKER_CREDS_PSW'
+                sh 'echo $DOCKER_CREDS_PSW | docker login -u $DOCKER_CREDS_USR --password-stdin'
                 sh 'docker build -t sashka/notes:latest .'
                 sh 'docker push sashka/notes:latest'
             } 
