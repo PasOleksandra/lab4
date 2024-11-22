@@ -45,20 +45,13 @@ pipeline {
                 }  
             } 
         } 
-
-        stage('Publish') {
+        stage("Publish") {
             agent any
             steps {
-                script {
-                    // Проверка, что переменные заполнены
-                    echo "Using Docker Username: $DOCKER_CREDS_USR"
-                    
-                    
-                    
-                    // Сборка и публикация Docker-образа
-                    sh 'docker build -t sashka/notes:latest .' 
-                    sh 'docker push sashka/notes:latest' 
-                }
+                sh 'echo $DOCKER_CREDS_PSW | docker login --username $DOCKER_CREDS_USR --password-stdin'
+                sh 'docker build -t sashka/notes:latest .'
+                sh 'docker push sashka/notes:latest'
+                
             } 
         } // stage Publish
     } // stages
