@@ -22,7 +22,7 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image 'python:3.9-alpine3.12' // Уточнений образ
+                    image 'python:3.9-alpine' // Уточнений образ
                     args '-u root'
                 }
             }
