@@ -1,8 +1,7 @@
 pipeline { 
     options { timestamps() }
     environment {
-        DOCKER_CREDS_USR = credentials('tockenn')  // Username from Jenkins credentials
-        DOCKER_CREDS_PSW = credentials('tockenn')  // Password/Token from Jenkins credentials
+        DOCKER_REGISTRY = 'https://registry-1.docker.io' // Password/Token from Jenkins credentials
     }
     agent none 
     stages {  
@@ -24,7 +23,7 @@ pipeline {
         stage('Test') { 
             agent { 
                 docker { 
-                    image 'python:3.9-alpine' 
+                    image 'python:3.9' 
                     args '-u root' 
                 } 
             } 
