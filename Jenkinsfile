@@ -1,7 +1,8 @@
 pipeline { 
     options { timestamps() }
     environment {
-        DOCKER_CREDS = credentials('tockenn') 
+        DOCKER_CREDS_USR = credentials('tockenn')  // Username from Jenkins credentials
+        DOCKER_CREDS_PSW = credentials('tockenn')  // Password/Token from Jenkins credentials
     }
     agent none 
     stages {  
@@ -31,7 +32,7 @@ pipeline {
                 sh 'apk add --update python3 py3-pip' 
                 sh 'pip install xmlrunner' 
                 sh 'pip install -r requirements.txt || echo "No requirements file found"' 
-                sh 'python3 test.py' // запуск тестов
+                sh 'python3 test.py'  // запуск тестів
             } 
             post { 
                 always { 
@@ -48,10 +49,9 @@ pipeline {
         stage("Publish") {
             agent any
             steps {
-                sh 'echo $DOCKER_CREDS_PSW | docker login --username $DOCKER_CREDS_USR --password-stdin'
+                sh 'docker login --username $DOCKER_CREDS_USR --password $DOCKER_CREDS_PSW'
                 sh 'docker build -t sashka/notes:latest .'
                 sh 'docker push sashka/notes:latest'
-                
             } 
         } // stage Publish
     } // stages
